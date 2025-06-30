@@ -51,6 +51,11 @@ public class PhysicsGun : MonoBehaviour
                         }
                     }
                 }
+
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    ReleaseSingleObject(rb);
+                }
             }
         }
 
@@ -58,17 +63,17 @@ public class PhysicsGun : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
-                float scaleScroll = Input.GetAxis("Mouse ScrollWheel");
-                if (scaleScroll != 0f)
-                {
-                    foreach (var rb in grabbedRigidbodies)
-                    {
-                        Vector3 newScale = rb.transform.localScale + Vector3.one * scaleScroll;
-                        newScale = Vector3.Max(newScale, Vector3.one * 0.1f);
-                        newScale = Vector3.Min(newScale, Vector3.one * 3f);
-                        rb.transform.localScale = newScale;
-                    }
-                }
+                //float scaleScroll = Input.GetAxis("Mouse ScrollWheel");
+                //if (scaleScroll != 0f)
+                //{
+                //    foreach (var rb in grabbedRigidbodies)
+                //    {
+                //        Vector3 newScale = rb.transform.localScale + Vector3.one * scaleScroll;
+                //        newScale = Vector3.Max(newScale, Vector3.one * 0.1f);
+                //        newScale = Vector3.Min(newScale, Vector3.one * 3f);
+                //        rb.transform.localScale = newScale;
+                //    }
+                //}
             }
             else
             {
@@ -80,8 +85,8 @@ public class PhysicsGun : MonoBehaviour
             if (Input.GetMouseButtonDown(1))
                 ThrowAllObjects();
 
-            if (Input.GetKeyDown(KeyCode.E))
-                TryFreezeObject();
+            //if (Input.GetKeyDown(KeyCode.E))
+               // TryFreezeObject();
         }
         else
         {
