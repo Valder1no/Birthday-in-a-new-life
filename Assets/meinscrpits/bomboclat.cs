@@ -51,11 +51,6 @@ public class PhysicsGun : MonoBehaviour
                         }
                     }
                 }
-
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    ReleaseSingleObject(rb);
-                }
             }
         }
 
