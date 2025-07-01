@@ -13,6 +13,8 @@ public class TimeCheckpointManager : MonoBehaviour
 
     private FirstPersonController playerController;
 
+    public RewindEffectUI rewindEffectUI;
+
     private float cooldownTimer = 0f;
     private float rewindTimer = 0f;
     private float recordTimer = 0f;
@@ -49,6 +51,7 @@ public class TimeCheckpointManager : MonoBehaviour
                 Debug.Log($"Recording snapshot for: {((MonoBehaviour)obj).gameObject.name}");
                 obj.RecordSnapshot();
             }
+
 
             recordTimer = 0f;
         }
@@ -119,6 +122,11 @@ public class TimeCheckpointManager : MonoBehaviour
         isRewinding = true;
         checkpointActive = false;
 
+
+        if (rewindEffectUI != null)
+
+            rewindEffectUI.StartRewindEffect();
+
         if (playerController != null)
             playerController.enabled = false;
 
@@ -165,6 +173,10 @@ public class TimeCheckpointManager : MonoBehaviour
 
         if (playerController != null)
             playerController.enabled = true;
+
+
+        if (rewindEffectUI != null)
+            rewindEffectUI.StopRewindEffect();
     }
 
 
