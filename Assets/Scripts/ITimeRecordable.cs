@@ -1,8 +1,9 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 public interface ITimeRecordable
 {
-    void SaveCheckpoint();
-    void LoadCheckpoint();
+    void RecordSnapshot();
+    void ApplySnapshot(TimeSnapshot snapshot);
+    List<TimeSnapshot> GetSnapshots();
+    void ClearSnapshots();
 }
-

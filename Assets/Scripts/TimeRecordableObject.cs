@@ -1,32 +1,53 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-[RequireComponent(typeof(Rigidbody))]
-public class TimeRecordable : MonoBehaviour, ITimeRecordable
+public class TimeRecordableObject : MonoBehaviour, ITimeRecordable
 {
-    private Vector3 savedPosition;
-    private Quaternion savedRotation;
-    private Vector3 savedVelocity;
-
     private Rigidbody rb;
+    private List<TimeSnapshot> snapshots = new List<TimeSnapshot>();
+
+    private TimeSnapshot backupSnapshot;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         TimeCheckpointManager.Instance.Register(this);
+        Debug.Log($"Registered!!!!");
     }
 
-    public void SaveCheckpoint()
+    public void RecordSnapshot()
     {
-        savedPosition = transform.position;
-        savedRotation = transform.rotation;
-        savedVelocity = rb.linearVelocity;
+        snapshots.Add(new TimeSnapshot(rb));
+        Debug.Log($"{gameObject.name} snapshot recorded. Total: {snapshots.Count}");
     }
 
-    public void LoadCheckpoint()
+    public void ApplySnapshot(TimeSnapshot snapshot)
     {
         rb.linearVelocity = Vector3.zero;
-        transform.position = savedPosition;
-        transform.rotation = savedRotation;
-        rb.linearVelocity = savedVelocity;
+        rb.angularVelocity = Vector3.zero;
+        rb.position = snapshot.position;
+        rb.rotation = snapshot.rotation;
+        rb.linearVelocity = snapshot.velocity;
+        rb.angularVelocity = snapshot.angularVelocity;
+
+        if (TryGetComponent<FirstPersonController>(out var controller))
+        {
+            // Reset internal velocity so it doesn't conflict with rewind
+            controller.ResetVelocity(snapshot.velocity);
+        }
+
     }
+
+    public void SetBackupSnapshot(TimeSnapshot snapshot)
+    {
+        backupSnapshot = snapshot;
+    }
+
+    public TimeSnapshot GetBackupSnapshot()
+    {
+        return backupSnapshot;
+    }
+
+    public List<TimeSnapshot> GetSnapshots() => snapshots;
+    public void ClearSnapshots() => snapshots.Clear();
 }
