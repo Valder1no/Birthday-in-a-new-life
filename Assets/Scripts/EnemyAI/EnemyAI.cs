@@ -19,7 +19,7 @@ public class EnemyAiTutorial : MonoBehaviour
 
     //Attacking
     public float timeBetweenAttacks;
-    bool alreadyAttacked;
+    bool alreadyAttacked = true;
 
     //States
     public float sightRange, attackRange;
@@ -35,7 +35,7 @@ public class EnemyAiTutorial : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        player = GameObject.Find("player").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -130,6 +130,7 @@ public class EnemyAiTutorial : MonoBehaviour
         agent.SetDestination(transform.position);
         transform.LookAt(player);
 
+        Invoke(nameof(ResetAttack), timeBetweenAttacks);
         if (!alreadyAttacked)
         {
             GameObject projectile = Instantiate(projectilePrefab, attackPoint.position, Quaternion.identity);

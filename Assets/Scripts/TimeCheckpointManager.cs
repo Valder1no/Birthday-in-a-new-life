@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class TimeCheckpointManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class TimeCheckpointManager : MonoBehaviour
     public float recordInterval = 0.01f;
 
     private FirstPersonController playerController;
+    private EnemyAiTutorial enemyAI;
 
     public RewindEffectUI rewindEffectUI;
 
@@ -137,6 +139,26 @@ public class TimeCheckpointManager : MonoBehaviour
         foreach (var obj in recordables)
             ((MonoBehaviour)obj).GetComponent<Rigidbody>().isKinematic = true;
 
+        foreach (var obj in recordables)
+
+        {
+
+            var mono = (MonoBehaviour)obj;
+
+            mono.GetComponent<Rigidbody>().isKinematic = true;
+
+            if (mono.gameObject.CompareTag("Enemy"))
+
+            {
+
+                mono.GetComponent<EnemyAiTutorial>().enabled = false;
+
+                mono.GetComponent<NavMeshAgent>().enabled = false;
+
+            }
+
+        }
+
         // Rewind in reverse snapshot order
         int frameCount = recordables[0].GetSnapshots().Count;
 
@@ -168,6 +190,27 @@ public class TimeCheckpointManager : MonoBehaviour
         // Restore physics
         foreach (var obj in recordables)
             ((MonoBehaviour)obj).GetComponent<Rigidbody>().isKinematic = false;
+
+
+        foreach (var obj in recordables)
+
+        {
+
+            var mono = (MonoBehaviour)obj;
+
+            mono.GetComponent<Rigidbody>().isKinematic = false;
+
+            if (mono.gameObject.CompareTag("Enemy"))
+
+            {
+
+                mono.GetComponent<EnemyAiTutorial>().enabled = true;
+
+                mono.GetComponent<NavMeshAgent>().enabled = true;
+
+            }
+
+        }
 
         yield return new WaitForSeconds(0);
 
