@@ -33,10 +33,31 @@ public class EnemyAiTutorial : MonoBehaviour
     public float angle;
     public float radius;
 
+    private EnemyAiTutorial enemyAI;
+
     private void Awake()
     {
         player = GameObject.Find("player").transform;
         agent = GetComponent<NavMeshAgent>();
+
+        if (agent != null) agent.enabled = false;
+        this.enabled = false;
+    }
+
+    private void Start()
+    {
+        if (enemyAI != null) 
+        {
+            enemyAI.enabled = false;
+            GetComponent<NavMeshAgent>().enabled = false;
+        }
+    }
+
+    public void StartEnemyAI() 
+    {
+        if (agent = null) agent.enabled = true;
+        agent = GetComponent<NavMeshAgent>();
+        this.enabled = true;
     }
 
     private void Update()

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PickableItem
   - Enemy
+  - Key
   layers:
   - Default
   - TransparentFX
