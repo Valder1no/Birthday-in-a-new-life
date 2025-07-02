@@ -48,16 +48,15 @@ public class EnemyAiTutorial : MonoBehaviour
     {
         if (enemyAI != null) 
         {
-            enemyAI.enabled = false;
+            this.enabled = false;
             GetComponent<NavMeshAgent>().enabled = false;
         }
     }
 
     public void StartEnemyAI() 
     {
-        if (agent = null) agent.enabled = true;
-        agent = GetComponent<NavMeshAgent>();
         this.enabled = true;
+        GetComponent<NavMeshAgent>().enabled = true;
     }
 
     private void Update()

@@ -11,15 +11,11 @@ public class Trigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             onTriggerEnter.Invoke();
+            Destroy(gameObject);
         }
     }
     void OnTriggerExit(Collider other)
     {
         onTriggerExit.Invoke();
-    }
-
-    public void TurnEnemyAiOn()
-    {
-        //play sound
     }
 }

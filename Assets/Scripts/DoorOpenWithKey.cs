@@ -1,8 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class DoorOpenWithKey : MonoBehaviour
 {
     private bool shouldMove = false;
+    private bool shouldMoveDown = false;
     public float moveSpeed = 2f;
     public float maxHeight = 100f;
 
@@ -22,6 +24,16 @@ public class DoorOpenWithKey : MonoBehaviour
         }
     }
 
+    public void moveUp()
+    {
+        shouldMove = true;
+    }
+
+    public void moveDown()
+    {
+        shouldMoveDown = true;
+    }
+
     void Update()
     {
         if (shouldMove)
@@ -36,5 +48,21 @@ public class DoorOpenWithKey : MonoBehaviour
                 shouldMove = false;
             }
         }
+
+        if (shouldMoveDown)
+        {
+            Vector3 pos = transform.position;
+            if (pos.y > initialY)
+            {
+                transform.position += Vector3.down * moveSpeed * Time.deltaTime;
+            }
+            else
+            {
+                shouldMoveDown = false;
+            }
+        }
     }
+
+
+
 }

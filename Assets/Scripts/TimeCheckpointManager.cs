@@ -50,7 +50,7 @@ public class TimeCheckpointManager : MonoBehaviour
         {
             foreach (var obj in recordables)
             {
-                Debug.Log($"Recording snapshot for: {((MonoBehaviour)obj).gameObject.name}");
+//                Debug.Log($"Recording snapshot for: {((MonoBehaviour)obj).gameObject.name}");
                 obj.RecordSnapshot();
             }
 
