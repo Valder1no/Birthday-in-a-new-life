@@ -6,7 +6,10 @@ public class DoorOpenWithKey : MonoBehaviour
     private bool shouldMove = false;
     private bool shouldMoveDown = false;
     public float moveSpeed = 2f;
-    public float maxHeight = 100f;
+    public float maxHeight = 140f;
+
+    public bool IsMovingUp() => shouldMove;
+    public bool IsMovingDown() => shouldMoveDown;
 
     private float initialY;
 
@@ -19,7 +22,7 @@ public class DoorOpenWithKey : MonoBehaviour
     {
         if (other.CompareTag("Key"))
         {
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             shouldMove = true;
         }
     }
@@ -33,6 +36,14 @@ public class DoorOpenWithKey : MonoBehaviour
     {
         shouldMoveDown = true;
     }
+
+    public void SetMoveStates(bool move, bool moveDown)
+    {
+        shouldMove = move;
+        shouldMoveDown = moveDown;
+    }
+
+
 
     void Update()
     {

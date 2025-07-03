@@ -1,4 +1,3 @@
-// TimeSnapshotStruct.cs
 using UnityEngine;
 
 [System.Serializable]
@@ -8,12 +7,21 @@ public struct TimeSnapshot
     public Quaternion rotation;
     public Vector3 velocity;
     public Vector3 angularVelocity;
+    public bool isActive;
 
-    public TimeSnapshot(Rigidbody rb)
+    // Add these:
+    public bool shouldMove;
+    public bool shouldMoveDown;
+
+    public TimeSnapshot(Rigidbody rb, bool shouldMove = false, bool shouldMoveDown = false)
     {
         position = rb.position;
         rotation = rb.rotation;
         velocity = rb.linearVelocity;
         angularVelocity = rb.angularVelocity;
+        isActive = rb.gameObject.activeSelf;
+
+        this.shouldMove = shouldMove;
+        this.shouldMoveDown = shouldMoveDown;
     }
 }

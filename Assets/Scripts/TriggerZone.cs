@@ -11,7 +11,7 @@ public class Trigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             onTriggerEnter.Invoke();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
     void OnTriggerExit(Collider other)

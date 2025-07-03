@@ -86,6 +86,7 @@ public class TimeCheckpointManager : MonoBehaviour
 
             // NEW: Record the current state as a backup
             var mono = (MonoBehaviour)obj;
+            Debug.Log(obj);
             Rigidbody rb = mono.GetComponent<Rigidbody>();
             var snapshot = new TimeSnapshot(rb);
 
@@ -188,17 +189,24 @@ public class TimeCheckpointManager : MonoBehaviour
         Debug.Log($"Final rewind position should be: {transform.position}");
 
         // Restore physics
-        foreach (var obj in recordables)
-            ((MonoBehaviour)obj).GetComponent<Rigidbody>().isKinematic = false;
+        //foreach (var obj in recordables)
+        //    ((MonoBehaviour)obj).GetComponent<Rigidbody>().isKinematic = false;
 
 
         foreach (var obj in recordables)
-
         {
-
             var mono = (MonoBehaviour)obj;
 
             mono.GetComponent<Rigidbody>().isKinematic = false;
+
+            if (mono.CompareTag("Door"))
+            {
+                mono.GetComponent<Rigidbody>().isKinematic = true;
+            }
+            else
+            {
+                mono.GetComponent<Rigidbody>().isKinematic = false;
+            }
 
             if (mono.gameObject.CompareTag("Enemy"))
 

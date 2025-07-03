@@ -8,6 +8,8 @@ public class TimeRecordableObject : MonoBehaviour, ITimeRecordable
 
     private TimeSnapshot backupSnapshot;
 
+    public bool trackOnlyActiveState = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -17,18 +19,44 @@ public class TimeRecordableObject : MonoBehaviour, ITimeRecordable
 
     public void RecordSnapshot()
     {
+        if (rb == null) return; // Safety check — don't record if rb was destroyed
+
+        if (rb == null) return;
+
+        bool move = false;
+        bool moveDown = false;
+
+        if (TryGetComponent<DoorOpenWithKey>(out var door))
+        {
+            move = door.IsMovingUp();
+            moveDown = door.IsMovingDown();
+        }
+
+        snapshots.Add(new TimeSnapshot(rb, move, moveDown));
+
+        if (!gameObject.activeSelf) return;
         snapshots.Add(new TimeSnapshot(rb));
         Debug.Log($"{gameObject.name} snapshot recorded. Total: {snapshots.Count}");
     }
 
     public void ApplySnapshot(TimeSnapshot snapshot)
     {
+        //if (trackOnlyActiveState) 
+        //{
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.position = snapshot.position;
         rb.rotation = snapshot.rotation;
         rb.linearVelocity = snapshot.velocity;
         rb.angularVelocity = snapshot.angularVelocity;
+        //}
+
+        gameObject.SetActive(snapshot.isActive);
+
+        if (TryGetComponent<DoorOpenWithKey>(out var door))
+        {
+            door.SetMoveStates(snapshot.shouldMove, snapshot.shouldMoveDown);
+        }
 
         if (TryGetComponent<FirstPersonController>(out var controller))
         {

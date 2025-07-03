@@ -33,6 +33,8 @@ public class EnemyAiTutorial : MonoBehaviour
     public float angle;
     public float radius;
 
+    private bool enemyShouldIBeAlive = false;
+
     private EnemyAiTutorial enemyAI;
 
     private void Awake()
@@ -44,23 +46,22 @@ public class EnemyAiTutorial : MonoBehaviour
         this.enabled = false;
     }
 
-    private void Start()
-    {
-        if (enemyAI != null) 
-        {
-            this.enabled = false;
-            GetComponent<NavMeshAgent>().enabled = false;
-        }
-    }
-
     public void StartEnemyAI() 
     {
-        this.enabled = true;
-        GetComponent<NavMeshAgent>().enabled = true;
+        enemyShouldIBeAlive = true;
     }
 
     private void Update()
     {
+        if (enemyShouldIBeAlive) 
+        {
+            if (enemyAI == null)
+            {
+                this.enabled = true;
+                GetComponent<NavMeshAgent>().enabled = true;
+            }
+        }
+
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
