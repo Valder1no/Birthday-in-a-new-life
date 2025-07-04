@@ -13,7 +13,9 @@ public struct TimeSnapshot
     public bool shouldMove;
     public bool shouldMoveDown;
 
-    public TimeSnapshot(Rigidbody rb, bool shouldMove = false, bool shouldMoveDown = false)
+    public bool? enemyShouldIBeAlive;
+
+    public TimeSnapshot(Rigidbody rb, bool shouldMove = false, bool shouldMoveDown = false, bool? enemyShouldIBeAlive = null)
     {
         position = rb.position;
         rotation = rb.rotation;
@@ -23,5 +25,7 @@ public struct TimeSnapshot
 
         this.shouldMove = shouldMove;
         this.shouldMoveDown = shouldMoveDown;
+
+        this.enemyShouldIBeAlive = enemyShouldIBeAlive;
     }
 }

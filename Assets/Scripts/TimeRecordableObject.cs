@@ -10,6 +10,7 @@ public class TimeRecordableObject : MonoBehaviour, ITimeRecordable
 
     public bool trackOnlyActiveState = false;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -19,12 +20,11 @@ public class TimeRecordableObject : MonoBehaviour, ITimeRecordable
 
     public void RecordSnapshot()
     {
-        if (rb == null) return; // Safety check — don't record if rb was destroyed
-
-        if (rb == null) return;
+        if (rb == null) return; // Safety check ï¿½ don't record if rb was destroyed
 
         bool move = false;
         bool moveDown = false;
+        bool? enemyAlive = null;
 
         if (TryGetComponent<DoorOpenWithKey>(out var door))
         {
@@ -32,10 +32,16 @@ public class TimeRecordableObject : MonoBehaviour, ITimeRecordable
             moveDown = door.IsMovingDown();
         }
 
-        snapshots.Add(new TimeSnapshot(rb, move, moveDown));
+        if (TryGetComponent<EnemyAiTutorial>(out var enemyAI))
+        {
+            enemyAlive = enemyAI.GetShouldIBeAlive();
+        }
 
-        if (!gameObject.activeSelf) return;
-        snapshots.Add(new TimeSnapshot(rb));
+
+        snapshots.Add(new TimeSnapshot(rb, move, moveDown, enemyAlive));
+
+        // if (!gameObject.activeSelf) return;
+        // snapshots.Add(new TimeSnapshot(rb));
         Debug.Log($"{gameObject.name} snapshot recorded. Total: {snapshots.Count}");
     }
 
@@ -62,6 +68,15 @@ public class TimeRecordableObject : MonoBehaviour, ITimeRecordable
         {
             // Reset internal velocity so it doesn't conflict with rewind
             controller.ResetVelocity(snapshot.velocity);
+        }
+
+        if (TryGetComponent<EnemyAiTutorial>(out var enemyAI) && snapshot.enemyShouldIBeAlive.HasValue)
+        {
+            Debug.Log($"{gameObject.name} Rewind snapshot says: shouldBeAlive = {snapshot.enemyShouldIBeAlive.Value}");
+            if (snapshot.enemyShouldIBeAlive.Value)
+                enemyAI.StartEnemyAI();
+            else
+                enemyAI.StopEnemyAi();
         }
 
     }

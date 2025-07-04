@@ -37,6 +37,8 @@ public class EnemyAiTutorial : MonoBehaviour
 
     private EnemyAiTutorial enemyAI;
 
+    public bool isInRewind = false;
+
     private void Awake()
     {
         player = GameObject.Find("player").transform;
@@ -46,21 +48,34 @@ public class EnemyAiTutorial : MonoBehaviour
         this.enabled = false;
     }
 
-    public void StartEnemyAI() 
+    public bool GetShouldIBeAlive()
+    { 
+        return enemyShouldIBeAlive;
+    }
+
+    public void StopEnemyAi()
     {
+        enemyShouldIBeAlive = false;
+    }
+
+    public void StartEnemyAI()
+    {
+        this.enabled = true;
         enemyShouldIBeAlive = true;
+
+        if (enemyAI == null)
+            GetComponent<NavMeshAgent>().enabled = true;
+    }
+
+    public void SetRewindState(bool isRewinding)
+    {
+        isInRewind = isRewinding;
     }
 
     private void Update()
     {
-        if (enemyShouldIBeAlive) 
-        {
-            if (enemyAI == null)
-            {
-                this.enabled = true;
-                GetComponent<NavMeshAgent>().enabled = true;
-            }
-        }
+        if (isInRewind) return;
+        if (!enemyShouldIBeAlive) return;
 
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FirstPersonController : MonoBehaviour
 {
@@ -96,6 +97,14 @@ public class FirstPersonController : MonoBehaviour
         gravityLockTimer = 0.2f;
 
         controller.enabled = true;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Projectile"))
+        {
+            SceneManager.LoadScene(2);
+        }      
     }
 
     public void ResetVelocity(Vector3 newVelocity)

@@ -141,6 +141,12 @@ public class TimeCheckpointManager : MonoBehaviour
             ((MonoBehaviour)obj).GetComponent<Rigidbody>().isKinematic = true;
 
         foreach (var obj in recordables)
+        {
+            if (((MonoBehaviour)obj).TryGetComponent<EnemyAiTutorial>(out var enemy))
+                enemy.SetRewindState(true);
+        }
+
+        foreach (var obj in recordables)
 
         {
 
@@ -228,6 +234,12 @@ public class TimeCheckpointManager : MonoBehaviour
 
         if (rewindEffectUI != null)
             rewindEffectUI.StopRewindEffect();
+
+        foreach (var obj in recordables)
+        {
+            if (((MonoBehaviour)obj).TryGetComponent<EnemyAiTutorial>(out var enemy))
+                enemy.SetRewindState(false);
+        }
     }
 
 

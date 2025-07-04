@@ -51,28 +51,21 @@ public class DoorOpenWithKey : MonoBehaviour
         {
             Vector3 pos = transform.position;
             if (pos.y < initialY + maxHeight)
-            {
                 transform.position += Vector3.up * moveSpeed * Time.deltaTime;
-            }
             else
-            {
                 shouldMove = false;
-            }
         }
 
         if (shouldMoveDown)
         {
             Vector3 pos = transform.position;
             if (pos.y > initialY)
-            {
                 transform.position += Vector3.down * moveSpeed * Time.deltaTime;
-            }
             else
-            {
                 shouldMoveDown = false;
-            }
         }
     }
+
 
 
 
