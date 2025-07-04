@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip rewindWarningClip;
     public AudioClip rewindClip;
     private AudioSource audioSource;
+    public AudioClip doorMoveClip;
 
     void Awake()
     {
@@ -37,6 +38,9 @@ public class AudioManager : MonoBehaviour
             case "TimeRewind":
                 audioSource.PlayOneShot(rewindClip);
                 Debug.Log("REWINDING REWINDING");
+                break;
+            case "doorMove":
+                audioSource.PlayOneShot(doorMoveClip);
                 break;
         }
     }

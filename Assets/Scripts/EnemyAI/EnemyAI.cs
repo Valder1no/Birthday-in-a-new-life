@@ -196,12 +196,12 @@ public class EnemyAiTutorial : MonoBehaviour
     }
 
     // NEW: Detect hits from PlayerAttack-tagged GameObjects
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("PlayerAttack"))
-        {
-            TakeDamage(1); // Each hit reduces 1 health
-            Destroy(other.gameObject); // Optional: destroy the attack object
-        }
-    }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.CompareTag("PlayerAttack"))
+    //     {
+    //         TakeDamage(1); // Each hit reduces 1 health
+    //         Destroy(other.gameObject); // Optional: destroy the attack object
+    //     }
+    // }
 }
