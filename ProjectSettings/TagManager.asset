@@ -9,6 +9,7 @@ TagManager:
   - Key
   - Door
   - Projectile
+  - Obstacle
   layers:
   - Default
   - TransparentFX
