@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class DoorOpenWithKey : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class DoorOpenWithKey : MonoBehaviour
 
     public bool IsMovingUp() => shouldMove;
     public bool IsMovingDown() => shouldMoveDown;
+
+    public bool openableWithKey;
+
+    private bool shouldMoveUpDown = false;
 
     private float initialY;
 
@@ -22,8 +27,11 @@ public class DoorOpenWithKey : MonoBehaviour
     {
         if (other.CompareTag("Key"))
         {
-            other.gameObject.SetActive(false);
-            shouldMove = true;
+            if (openableWithKey) 
+            {
+                other.gameObject.SetActive(false);
+                shouldMove = true;
+            }
         }
     }
 
@@ -41,6 +49,39 @@ public class DoorOpenWithKey : MonoBehaviour
     {
         shouldMove = move;
         shouldMoveDown = moveDown;
+    }
+
+    public void moveUpDown() 
+    {
+        StartCoroutine(MoveUpThenDown());
+    }
+
+    public IEnumerator MoveUpThenDown()
+    {
+        float targetY = transform.position.y + maxHeight;
+
+        // Move up
+        while (transform.position.y < targetY)
+        {
+            transform.position += Vector3.up * moveSpeed * Time.deltaTime;
+            yield return null; // wait until next frame
+        }
+
+        // Snap to exact height
+        transform.position = new Vector3(transform.position.x, targetY, transform.position.z);
+
+        // Optional: small wait at the top
+        yield return new WaitForSeconds(0.5f);
+
+        // Move down
+        while (transform.position.y > initialY)
+        {
+            transform.position += Vector3.down * moveSpeed * Time.deltaTime;
+            yield return null;
+        }
+
+        // Snap to initial height
+        transform.position = new Vector3(transform.position.x, initialY, transform.position.z);
     }
 
 

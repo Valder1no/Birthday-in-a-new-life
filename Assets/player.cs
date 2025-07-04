@@ -21,6 +21,14 @@ public class FirstPersonController : MonoBehaviour
     private float gravityLockTimer = 0f;
     private Vector3 nextFrameVelocity = Vector3.zero;
 
+    public AudioClip hugoEasterEgg;
+
+    public static AudioManager Instance;
+
+    private AudioSource audioSource;
+
+
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -28,6 +36,12 @@ public class FirstPersonController : MonoBehaviour
 
         if (controller == null)
             controller = GetComponent<CharacterController>();
+    }
+
+    private void PlayClip(AudioClip clip)
+    {
+        if (clip != null)
+            audioSource.PlayOneShot(clip);
     }
 
     void Update()
@@ -42,6 +56,16 @@ public class FirstPersonController : MonoBehaviour
         float z = Input.GetAxis("Vertical");
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * moveSpeed * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.R)) 
+        {
+            SceneManager.LoadScene(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            AudioManager.Instance.PlayClip(hugoEasterEgg);
+        }
 
         // Jump
         if (Input.GetButtonDown("Jump") && isGrounded)

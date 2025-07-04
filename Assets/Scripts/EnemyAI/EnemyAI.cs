@@ -33,6 +33,8 @@ public class EnemyAiTutorial : MonoBehaviour
     public float angle;
     public float radius;
 
+    public float killSpeedThreshold;
+
     private bool enemyShouldIBeAlive = false;
 
     private EnemyAiTutorial enemyAI;
@@ -71,6 +73,23 @@ public class EnemyAiTutorial : MonoBehaviour
     {
         isInRewind = isRewinding;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Rigidbody rb = other.attachedRigidbody;
+        if (rb != null)
+        {
+            float speed = rb.linearVelocity.magnitude;
+
+            Debug.Log($"Speed on impact: {speed}");
+
+            if (speed > killSpeedThreshold)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+    }
+
 
     private void Update()
     {

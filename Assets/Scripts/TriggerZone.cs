@@ -10,6 +10,7 @@ public class Trigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("The player walked into me");
             onTriggerEnter.Invoke();
             gameObject.SetActive(false);
         }
