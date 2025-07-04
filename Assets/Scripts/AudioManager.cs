@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
@@ -58,6 +58,6 @@ public class AudioManager : MonoBehaviour
     public void PlayLine7() => PlayClip(Line7);
     public void PlayLine8() => PlayClip(Line8);
     public void PlayLine9() => PlayClip(Line9);
-    public void PlayLine10() => PlayClip(Line10);
+    public void PlayLine10() { PlayClip(Line10); SceneManager.LoadScene(0);}
     public void PlayEasterEgg() => PlayClip(hugoEasterEgg);
 }
